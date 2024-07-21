@@ -2,6 +2,14 @@
 
 Optimized primitives for inter-GPU communication.
 
+1，拓扑算法，ring allreduce, double tree拓扑等；
+2，细节处理好，gpu p2p数据搬运，GPU-Direct支持等；
+3，节点间支持RDMA和socket，前者在特定网络设备上表现特别好；
+4，手工实现了一个类似cuda stream的任务队列，方便从host向device派遣任务；
+5，在cuda kernel上限定每个block使用比较少数thread，集群操作不太影响其他计算任务；
+6，把host memory映射到device地址空间，从device直接访问host，流式处理数据搬运和计算；
+7，device之间使用底层通信原语进行同步，而不是cuda api里的event。
+
 ## Introduction
 
 NCCL (pronounced "Nickel") is a stand-alone library of standard communication routines for GPUs, implementing all-reduce, all-gather, reduce, broadcast, reduce-scatter, as well as any send/receive based communication pattern. It has been optimized to achieve high bandwidth on platforms using PCIe, NVLink, NVswitch, as well as networking using InfiniBand Verbs or TCP/IP sockets. NCCL supports an arbitrary number of GPUs installed in a single node or across multiple nodes, and can be used in either single- or multi-process (e.g., MPI) applications.
